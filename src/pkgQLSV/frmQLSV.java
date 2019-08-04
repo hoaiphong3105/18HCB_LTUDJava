@@ -357,7 +357,7 @@ public class frmQLSV extends javax.swing.JFrame {
             if (flag == 0) {
                 boolean kq;
                 try {
-                    kq = StudentBUS.removeStudent_Courses(khoahoc, stClass, mssv);
+                    kq = StudentBUS.removeStudent_Courses(khoahoc,mssv,stClass );
 
                     if (kq == true) {
                         JOptionPane.showMessageDialog(null, "Đã xóa sinh viên thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);

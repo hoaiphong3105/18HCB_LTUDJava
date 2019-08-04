@@ -20,6 +20,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import pkgQLSV.FileHelper;
 import pkgQLSV.Main;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 
 /**
  *
@@ -147,47 +154,35 @@ public class StudentBUS {
     }
 
     public static boolean removeStudent_Courses(String course, String StCode, String stClass) throws FileNotFoundException {
-        ArrayList<String> tempArray = new ArrayList<>();
-        FileInputStream fileStream = new FileInputStream(fileStdudent_tkb);
+        StringBuilder data = new StringBuilder();
 
-        try (InputStreamReader reader = new InputStreamReader(fileStream, StandardCharsets.UTF_8);) {
-            Scanner x = new Scanner(new File(fileStdudent_tkb), "UTF-8");
-            String line;
-            String[] lineArr;
+        try (BufferedReader br = new BufferedReader(new FileReader(fileStdudent_tkb))) {
+            String line = br.readLine();
+            while (line != null) {
+                String[] items = line.split(",");
+                if (course.equals(items[0])
+                        && StCode.equals(items[2])
+                        && stClass.equals(items[1])) {
 
-            while (x.hasNext()) {
-                x.useDelimiter("[\r\n]");
-                line = x.next();
-
-                lineArr = line.split(",");
-                if (lineArr[0].equals(course)
-                        && lineArr[1].equals(stClass)
-                        && lineArr[2].equals(StCode)) {
                 } else {
-                    tempArray.add(
-                            lineArr[0] + ","
-                            + lineArr[1] + ","
-                            + lineArr[2]);
+                    data.append(line).append("\r\n");
                 }
+                line = br.readLine();
             }
-            reader.close();
-        } catch (Exception e) {
-        }
-
-        FileOutputStream fos = new FileOutputStream(fileStdudent_tkb, false);
-        OutputStreamWriter writer = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
-        BufferedWriter bw = new BufferedWriter(writer);
-
-        try {
-            for (String str : tempArray) {
-                bw.write(str);
-                bw.write("\r\n");
-            }
-            bw.close();
-
-            return true;
+            br.close();
+        } catch (FileNotFoundException ex) {
+            return false;
         } catch (IOException ex) {
             return false;
         }
+
+        try (BufferedWriter br = new BufferedWriter(new FileWriter(fileStdudent_tkb))) {
+            br.write(data.toString());
+            br.close();
+        } catch (IOException ex) {
+            return false;
+        }
+
+        return true;
     }
 }
