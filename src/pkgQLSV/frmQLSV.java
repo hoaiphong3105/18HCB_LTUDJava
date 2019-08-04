@@ -46,6 +46,7 @@ public class frmQLSV extends javax.swing.JFrame {
         btnRefresh1 = new javax.swing.JButton();
         btnUpdate1 = new javax.swing.JButton();
         btnAdd1 = new javax.swing.JButton();
+        btnAddCourse = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         btnSearch = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -82,18 +83,27 @@ public class frmQLSV extends javax.swing.JFrame {
             }
         });
 
+        btnAddCourse.setText("Thêm sinh viên vào khóa học");
+        btnAddCourse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddCourseActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(22, 22, 22)
                 .addComponent(btnRefresh1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnAdd1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAddCourse)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnUpdate1)
-                .addGap(22, 22, 22))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -102,7 +112,8 @@ public class frmQLSV extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRefresh1)
                     .addComponent(btnUpdate1)
-                    .addComponent(btnAdd1))
+                    .addComponent(btnAdd1)
+                    .addComponent(btnAddCourse))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -266,6 +277,7 @@ public class frmQLSV extends javax.swing.JFrame {
 
     private void btnRefresh1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefresh1ActionPerformed
         // TODO add your handling code here:
+        btnSearchActionPerformed(evt);
     }//GEN-LAST:event_btnRefresh1ActionPerformed
 
     //import tkb
@@ -297,7 +309,7 @@ public class frmQLSV extends javax.swing.JFrame {
             String temp = coures.split("-")[0].trim();
             students = StudentBUS.getAllStudentByClassAndCourse(stClass, temp);
         }
-        if (students.size() == 0) {
+        if (students == null || students.size() == 0) {
             String[] columns = {"Mã Sinh Viên", "Họ Tên", "Giới Tính", "Lớp"};
             modelSt = new DefaultTableModel(null, columns);
             tbStudents.setModel(modelSt);
@@ -308,6 +320,14 @@ public class frmQLSV extends javax.swing.JFrame {
         }
         tbStudents.setModel(modelSt);
     }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void btnAddCourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCourseActionPerformed
+        // TODO add your handling code here:
+        frmAddCourse frm = new frmAddCourse(null, true);
+        frm.setTitle("Thêm Sinh Viên");
+        frm.setLocationRelativeTo(null);
+        frm.setVisible(true);
+    }//GEN-LAST:event_btnAddCourseActionPerformed
 
     /**
      * @param args the command line arguments
@@ -347,6 +367,7 @@ public class frmQLSV extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnAdd1;
+    private javax.swing.JButton btnAddCourse;
     private javax.swing.JMenuItem btnImportTKB;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnRefresh1;

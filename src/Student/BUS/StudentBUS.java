@@ -107,7 +107,7 @@ public class StudentBUS {
             ArrayList<Student_CourseDto> list2 = new ArrayList<Student_CourseDto>();
             ArrayList<StudentDto> res = new ArrayList<StudentDto>();
 
-            list = getAllStudentByClass(stClass);
+            list = getAllStudents("");
             list2 = getAllStudents_Courses();
             if (list == null || list2 == null) {
                 return null;
@@ -124,6 +124,15 @@ public class StudentBUS {
             return res;
         } catch (Exception ex) {
             return null;
+        }
+    }
+
+    public static boolean addStudent_Courses(Student_CourseDto st) {
+        try {
+            String[] strs = new String[]{st.getCourse(), st.getStClass(), st.getStCode()};
+            return FileHelper.WriteFile(fileStdudent_tkb, strs);
+        } catch (Exception ex) {
+            return false;
         }
     }
 }
