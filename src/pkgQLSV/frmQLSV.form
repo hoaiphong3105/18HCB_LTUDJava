@@ -163,8 +163,11 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnUpdate1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="C&#x1ead;p nh&#x1ead;t th&#xf4;ng tin sinh vi&#xea;n"/>
+            <Property name="text" type="java.lang.String" value="X&#xf3;a sinh vi&#xea;n kh&#x1ecf;i kh&#xf3;a h&#x1ecd;c"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUpdate1ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnAdd1">
           <Properties>

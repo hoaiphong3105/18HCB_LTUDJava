@@ -7,7 +7,17 @@ package Student.BUS;
 
 import Student.DTO.StudentDto;
 import Student.DTO.Student_CourseDto;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Scanner;
 import pkgQLSV.FileHelper;
 import pkgQLSV.Main;
 
@@ -132,6 +142,51 @@ public class StudentBUS {
             String[] strs = new String[]{st.getCourse(), st.getStClass(), st.getStCode()};
             return FileHelper.WriteFile(fileStdudent_tkb, strs);
         } catch (Exception ex) {
+            return false;
+        }
+    }
+
+    public static boolean removeStudent_Courses(String course, String StCode, String stClass) throws FileNotFoundException {
+        ArrayList<String> tempArray = new ArrayList<>();
+        FileInputStream fileStream = new FileInputStream(fileStdudent_tkb);
+
+        try (InputStreamReader reader = new InputStreamReader(fileStream, StandardCharsets.UTF_8);) {
+            Scanner x = new Scanner(new File(fileStdudent_tkb), "UTF-8");
+            String line;
+            String[] lineArr;
+
+            while (x.hasNext()) {
+                x.useDelimiter("[\r\n]");
+                line = x.next();
+
+                lineArr = line.split(",");
+                if (lineArr[0].equals(course)
+                        && lineArr[1].equals(stClass)
+                        && lineArr[2].equals(StCode)) {
+                } else {
+                    tempArray.add(
+                            lineArr[0] + ","
+                            + lineArr[1] + ","
+                            + lineArr[2]);
+                }
+            }
+            reader.close();
+        } catch (Exception e) {
+        }
+
+        FileOutputStream fos = new FileOutputStream(fileStdudent_tkb, false);
+        OutputStreamWriter writer = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
+        BufferedWriter bw = new BufferedWriter(writer);
+
+        try {
+            for (String str : tempArray) {
+                bw.write(str);
+                bw.write("\r\n");
+            }
+            bw.close();
+
+            return true;
+        } catch (IOException ex) {
             return false;
         }
     }

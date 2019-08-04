@@ -7,8 +7,13 @@ package pkgQLSV;
 
 import Student.BUS.StudentBUS;
 import Student.DTO.StudentDto;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -74,7 +79,12 @@ public class frmQLSV extends javax.swing.JFrame {
             }
         });
 
-        btnUpdate1.setText("Cập nhật thông tin sinh viên");
+        btnUpdate1.setText("Xóa sinh viên khỏi khóa học");
+        btnUpdate1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdate1ActionPerformed(evt);
+            }
+        });
 
         btnAdd1.setText("Thêm sinh viên");
         btnAdd1.addActionListener(new java.awt.event.ActionListener() {
@@ -328,6 +338,41 @@ public class frmQLSV extends javax.swing.JFrame {
         frm.setLocationRelativeTo(null);
         frm.setVisible(true);
     }//GEN-LAST:event_btnAddCourseActionPerformed
+
+    private void btnUpdate1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdate1ActionPerformed
+        // TODO add your handling code here:
+        ArrayList dssv = StudentBUS.getAllStudents_Courses();
+        int index = tbStudents.getSelectedRow();
+
+        if (index >= 0 && index < dssv.size()) {
+            TableModel model = tbStudents.getModel();
+            String mssv = model.getValueAt(index, 0).toString();
+            String hoten = model.getValueAt(index, 1).toString();
+            String khoahoc = cbCourse.getSelectedItem().toString().split("-")[0].trim();
+            String stClass = cbClass.getSelectedItem().toString();
+            Object[] options = {"Yes", "No"};
+            int flag = JOptionPane.showOptionDialog(null, "Bạn có chắc chắn muốn xóa sinh viên \n" + mssv + " - " + hoten + " ?", "Thông báo",
+                    JOptionPane.WARNING_MESSAGE, JOptionPane.WARNING_MESSAGE, null, options, options[1]);
+
+            if (flag == 0) {
+                boolean kq;
+                try {
+                    kq = StudentBUS.removeStudent_Courses(khoahoc, stClass, mssv);
+
+                    if (kq == true) {
+                        JOptionPane.showMessageDialog(null, "Đã xóa sinh viên thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } catch (FileNotFoundException ex) {
+
+                }
+            } else {
+                return;
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Chưa chọn sinh viên!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+    }//GEN-LAST:event_btnUpdate1ActionPerformed
 
     /**
      * @param args the command line arguments
