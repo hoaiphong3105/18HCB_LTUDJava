@@ -99,7 +99,10 @@ public class frmQLSV extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
+        ImportStudent frm = new ImportStudent(this, true);
+        frm.setTitle("Thêm Sinh Viên");
+        frm.setLocationRelativeTo(null);
+        frm.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**

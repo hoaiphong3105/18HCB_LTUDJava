@@ -5,17 +5,22 @@
  */
 package pkgQLSV;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 /**
  *
  * @author hoaip
  */
 public class FileHelper {
+
     public static boolean WriteFile(String filePath, String[] contains) {
         try {
             FileOutputStream fos = new FileOutputStream(filePath, true);
@@ -25,7 +30,7 @@ public class FileHelper {
                 bw.write(contains[i]);
 
                 if (i != contains.length - 1) {
-                    bw.write("|");
+                    bw.write(",");
                 }
             }
             bw.newLine();
@@ -34,6 +39,22 @@ public class FileHelper {
             return true;
         } catch (IOException ex) {
             return false;
+        }
+    }
+
+    public static ArrayList<String[]> ReadFile(String filePath) {
+        ArrayList<String[]> data = new ArrayList<String[]>();
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath), "UTF-8"));
+            String line = br.readLine();
+            while (line != null) {
+                String[] items = line.split(",");
+                data.add(items);
+                line = br.readLine();
+            }
+            return data;
+        } catch (Exception ex) {
+            return null;
         }
     }
 }

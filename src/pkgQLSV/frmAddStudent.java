@@ -144,7 +144,7 @@ public class frmAddStudent extends javax.swing.JDialog {
         st.setStClass(cbClass.getSelectedItem().toString());
         st.setGender(cbGender.getSelectedItem().toString());
 
-        boolean flag = StudentBUS.AddStudent(st);
+        boolean flag = StudentBUS.addStudent(st);
         if (flag) {
             JOptionPane.showMessageDialog(null, "Thêm sinh viên thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         } else {
