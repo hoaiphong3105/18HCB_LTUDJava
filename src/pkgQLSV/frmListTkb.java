@@ -6,7 +6,9 @@
 package pkgQLSV;
 
 import Student.BUS.StudentBUS;
+import Student.BUS.TkbBUS;
 import Student.DTO.StudentDto;
+import Student.DTO.TkbDto;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
@@ -16,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class frmListTkb extends javax.swing.JDialog {
 
-        DefaultTableModel modelTkb;
+    DefaultTableModel modelTkb;
 
     /**
      * Creates new form frmListTkb
@@ -24,7 +26,7 @@ public class frmListTkb extends javax.swing.JDialog {
     public frmListTkb(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+
         // init table
         String[] columns = {"Mã môn", "Tên môn", "Phòng học", "Lớp"};
         modelTkb = new DefaultTableModel(null, columns);
@@ -92,7 +94,26 @@ public class frmListTkb extends javax.swing.JDialog {
 
     private void btnViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewActionPerformed
         // TODO add your handling code here:
-       String stClass = cbClass.getSelectedItems().toString();
+        modelTkb.getDataVector().removeAllElements();
+        String stClass = cbClass.getSelectedItem().toString();
+        ArrayList<TkbDto> tkbs = new ArrayList<TkbDto>();
+        if (stClass.equals("Tất cả")) {
+            tkbs = TkbBUS.getAllTKbByClass("");
+        } else {
+            tkbs = TkbBUS.getAllTKbByClass(stClass);
+        }
+        if (tkbs == null) {
+
+        } else {
+            if (tkbs.size() == 0) {
+                String[] columns = {"Mã môn", "Tên môn", "Phòng học", "Lớp"};
+                modelTkb = new DefaultTableModel(null, columns);
+            }
+            for (int i = 0; i < tkbs.size(); i++) {
+                modelTkb.insertRow(i, new Object[]{tkbs.get(i).getCode(), tkbs.get(i).getName(), tkbs.get(i).getRoom(), tkbs.get(i).getStClass()});
+            }
+        }
+        tbListTkb.setModel(modelTkb);
     }//GEN-LAST:event_btnViewActionPerformed
 
     /**

@@ -63,6 +63,7 @@ public class TkbBUS {
                     tkb.setCode(strs[0]);
                     tkb.setName(strs[1]);
                     tkb.setRoom(strs[2]);
+                    tkb.setStClass(strs[3]);
 
                     list.add(tkb);
                 }
@@ -80,6 +81,9 @@ public class TkbBUS {
             list = getAllTkb();
             if (list == null) {
                 return null;
+            }
+            if (stClass.equals("")) {
+                return list;
             }
             for (int i = 0; i < list.size(); i++) {
                 if (list.get(i).getStClass().equals(stClass)) {
