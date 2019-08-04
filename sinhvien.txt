@@ -1,2 +1,4 @@
-18424049|Đặng Hoài Phong|Nam|18HCB
-184240492|Phong|Nam|17HCB
+1,Đặng Hoài Phong,Nam,18HCB
+2,Phong,Nam,18HCB
+3,Tèo,Nữ,18HCB
+4,Tí,Nữ,17HCB

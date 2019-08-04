@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
@@ -46,6 +47,8 @@ public class ImportStudent extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         tbSudents = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        cbClass = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -71,6 +74,15 @@ public class ImportStudent extends javax.swing.JDialog {
         jScrollPane1.setViewportView(tbSudents);
 
         jButton1.setText("Import");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Lớp");
+
+        cbClass.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "18HCB", "17HCB", "16HCB" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -79,16 +91,21 @@ public class ImportStudent extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtPath, javax.swing.GroupLayout.PREFERRED_SIZE, 520, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnChooseFile, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 689, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtPath)
+                            .addComponent(cbClass, 0, 287, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnChooseFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(233, 233, 233)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -99,8 +116,12 @@ public class ImportStudent extends javax.swing.JDialog {
                     .addComponent(jLabel2)
                     .addComponent(btnChooseFile)
                     .addComponent(txtPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(cbClass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -126,7 +147,7 @@ public class ImportStudent extends javax.swing.JDialog {
                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -139,7 +160,9 @@ public class ImportStudent extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -156,16 +179,16 @@ public class ImportStudent extends javax.swing.JDialog {
             File f = frmFileChoose.getSelectedFile();
             txtPath.setText(f.getAbsolutePath());
 
-            String[] columns = new String[]{"MSSV", "Họ tên", "Giới tính", "Lớp"};
+            String[] columns = new String[]{"MSSV", "Họ tên", "Giới tính"};
             DefaultTableModel modelSt = new DefaultTableModel(null, columns);
             // load danh sach
             String path = txtPath.getText().trim();
-            ArrayList<StudentDto> students = StudentBUS.getAllStudents(path);
-            if (students == null) {
+            ArrayList<String[]> lines = FileHelper.ReadFile(path);
+            if (lines == null) {
 
             } else {
-                for (int i = 0; i < students.size(); i++) {
-                    modelSt.insertRow(i, new Object[]{students.get(i).getCode(), students.get(i).getName(), students.get(i).getGender(), students.get(i).getStClass()});
+                for (int i = 0; i < lines.size(); i++) {
+                    modelSt.addRow(lines.get(i));
                 }
             }
             tbSudents.setModel(modelSt);
@@ -175,6 +198,23 @@ public class ImportStudent extends javax.swing.JDialog {
     private void txtPathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPathActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPathActionPerformed
+
+    // import student
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String stClass = cbClass.getSelectedItem().toString();
+        String path = txtPath.getText().trim();
+        ArrayList<String[]> lines = FileHelper.ReadFile(path);
+        for (int i = 0; i < lines.size(); i++) {
+            StudentDto st = new StudentDto();
+            String[] strs = lines.get(i);
+            st.setCode(strs[0]);
+            st.setName(strs[1]);
+            st.setGender(strs[2]);
+            st.setStClass(stClass);
+            StudentBUS.addStudent(st);
+        }
+        JOptionPane.showMessageDialog(null, "Import sinh viên thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -220,9 +260,11 @@ public class ImportStudent extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnChooseFile;
+    private javax.swing.JComboBox<String> cbClass;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
