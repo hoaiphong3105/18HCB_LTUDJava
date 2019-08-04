@@ -223,6 +223,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="T&#xec;m ki&#x1ebf;m"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSearchActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
@@ -237,9 +240,10 @@
         <Component class="javax.swing.JComboBox" name="cbCourse">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="2">
-                <StringItem index="0" value="CTT01 - L&#x1ead;p tr&#xec;nh &#x1ee8;ng D&#x1ee5;ng Java"/>
-                <StringItem index="1" value="CTT02 - M&#x1ea1;ng m&#xe1;y t&#xed;nh"/>
+              <StringArray count="3">
+                <StringItem index="0" value="Kh&#xf4;ng ch&#x1ecd;n"/>
+                <StringItem index="1" value="CTT01 - L&#x1ead;p tr&#xec;nh &#x1ee8;ng D&#x1ee5;ng Java"/>
+                <StringItem index="2" value="CTT02 - M&#x1ea1;ng m&#xe1;y t&#xed;nh"/>
               </StringArray>
             </Property>
           </Properties>

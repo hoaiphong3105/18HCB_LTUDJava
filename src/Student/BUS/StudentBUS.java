@@ -6,6 +6,7 @@
 package Student.BUS;
 
 import Student.DTO.StudentDto;
+import Student.DTO.Student_CourseDto;
 import java.util.ArrayList;
 import pkgQLSV.FileHelper;
 import pkgQLSV.Main;
@@ -18,6 +19,7 @@ public class StudentBUS {
 
     //static variables
     public static String fileStdudent = "sinhvien.txt";
+    public static String fileStdudent_tkb = "st_tkb.txt";
     //
 
     public static boolean addStudent(StudentDto st) {
@@ -70,6 +72,53 @@ public class StudentBUS {
             for (int i = 0; i < list.size(); i++) {
                 if (list.get(i).getStClass().equals(stClass)) {
                     res.add(list.get(i));
+                }
+            }
+            return res;
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    public static ArrayList<Student_CourseDto> getAllStudents_Courses() {
+        ArrayList<Student_CourseDto> list = new ArrayList<Student_CourseDto>();
+        try {
+            ArrayList<String[]> lines = FileHelper.ReadFile(fileStdudent_tkb);
+            if (lines != null) {
+                for (int i = 0; i < lines.size(); i++) {
+                    Student_CourseDto st = new Student_CourseDto();
+                    String[] strs = lines.get(i);
+                    st.setCourse(strs[0]);
+                    st.setStClass(strs[1]);
+                    st.setStCode(strs[2]);
+
+                    list.add(st);
+                }
+            }
+        } catch (Exception ex) {
+            return null;
+        }
+        return list;
+    }
+
+    public static ArrayList<StudentDto> getAllStudentByClassAndCourse(String stClass, String course) {
+        try {
+            ArrayList<StudentDto> list = new ArrayList<StudentDto>();
+            ArrayList<Student_CourseDto> list2 = new ArrayList<Student_CourseDto>();
+            ArrayList<StudentDto> res = new ArrayList<StudentDto>();
+
+            list = getAllStudentByClass(stClass);
+            list2 = getAllStudents_Courses();
+            if (list == null || list2 == null) {
+                return null;
+            }
+            for (int i = 0; i < list.size(); i++) {
+                for (int j = 0; j < list2.size(); j++) {
+                    if (list2.get(j).getStClass().equals(stClass)
+                            && list2.get(j).getCourse().equals(course)
+                            && list2.get(j).getStCode().equals(list.get(i).getCode())) {
+                        res.add(list.get(i));
+                    }
                 }
             }
             return res;

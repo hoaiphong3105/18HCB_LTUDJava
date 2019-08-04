@@ -5,6 +5,9 @@
  */
 package pkgQLSV;
 
+import Student.BUS.StudentBUS;
+import Student.DTO.StudentDto;
+import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -16,10 +19,11 @@ public class frmQLSV extends javax.swing.JFrame {
     /**
      * Creates new form frmQLSV
      */
-     DefaultTableModel modelSt;
+    DefaultTableModel modelSt;
+
     public frmQLSV() {
         initComponents();
-        
+
         // danh sách sinh vien
         //init danh sách sinh viên
         String[] columns = {"Mã Sinh Viên", "Họ Tên", "Giới Tính", "Lớp"};
@@ -103,12 +107,17 @@ public class frmQLSV extends javax.swing.JFrame {
         );
 
         btnSearch.setText("Tìm kiếm");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Lớp ");
 
         jLabel2.setText("Môn học");
 
-        cbCourse.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CTT01 - Lập trình Ứng Dụng Java", "CTT02 - Mạng máy tính" }));
+        cbCourse.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Không chọn", "CTT01 - Lập trình Ứng Dụng Java", "CTT02 - Mạng máy tính" }));
 
         cbClass.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "18HCB", "17HCB", "16HCB" }));
 
@@ -249,7 +258,7 @@ public class frmQLSV extends javax.swing.JFrame {
 
     private void btnAdd1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdd1ActionPerformed
         // TODO add your handling code here:
-        frmAddStudent frm = new frmAddStudent(null,true);
+        frmAddStudent frm = new frmAddStudent(null, true);
         frm.setTitle("Thêm Sinh Viên");
         frm.setLocationRelativeTo(null);
         frm.setVisible(true);
@@ -262,7 +271,7 @@ public class frmQLSV extends javax.swing.JFrame {
     //import tkb
     private void btnImportTKBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportTKBActionPerformed
         // TODO add your handling code here:
-        frmImportTKB frm = new frmImportTKB(null,true);
+        frmImportTKB frm = new frmImportTKB(null, true);
         frm.setTitle("Thêm Sinh Viên");
         frm.setLocationRelativeTo(null);
         frm.setVisible(true);
@@ -270,11 +279,35 @@ public class frmQLSV extends javax.swing.JFrame {
 
     private void mnListTkbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnListTkbActionPerformed
         // TODO add your handling code here:
-         frmListTkb frm = new frmListTkb(null,true);
+        frmListTkb frm = new frmListTkb(null, true);
         frm.setTitle("Thêm Sinh Viên");
         frm.setLocationRelativeTo(null);
         frm.setVisible(true);
     }//GEN-LAST:event_mnListTkbActionPerformed
+
+    // tìm kiếm
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        modelSt.getDataVector().removeAllElements();
+        String stClass = cbClass.getSelectedItem().toString();
+        String coures = cbCourse.getSelectedItem().toString();
+        ArrayList<StudentDto> students = new ArrayList<StudentDto>();
+        if (coures.equals("Không chọn")) {
+            students = StudentBUS.getAllStudentByClass(stClass);
+        } else {
+            String temp = coures.split("-")[0].trim();
+            students = StudentBUS.getAllStudentByClassAndCourse(stClass, temp);
+        }
+        if (students.size() == 0) {
+            String[] columns = {"Mã Sinh Viên", "Họ Tên", "Giới Tính", "Lớp"};
+            modelSt = new DefaultTableModel(null, columns);
+            tbStudents.setModel(modelSt);
+            return;
+        }
+        for (int i = 0; i < students.size(); i++) {
+            modelSt.insertRow(i, new Object[]{students.get(i).getCode(), students.get(i).getName(), students.get(i).getGender(), students.get(i).getStClass()});
+        }
+        tbStudents.setModel(modelSt);
+    }//GEN-LAST:event_btnSearchActionPerformed
 
     /**
      * @param args the command line arguments
