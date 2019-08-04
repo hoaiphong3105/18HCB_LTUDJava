@@ -156,8 +156,10 @@ public class frmImportTKB extends javax.swing.JDialog {
             String[] strs = lines.get(i);
             st.setCode(strs[0]);
             st.setName(strs[1]);
-            st.setRoom(stClass);
+            st.setRoom(strs[2]);
+            st.setStClass(stClass);
             TkbBUS.addTKb(st);
+            TkbBUS.addStudent_Tkb(st);
         }
         JOptionPane.showMessageDialog(null, "Import sinh viên thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnImportActionPerformed

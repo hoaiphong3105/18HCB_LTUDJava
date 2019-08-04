@@ -13,9 +13,18 @@ public class TkbDto {
     private String Code;
     private String Name;
     private String Room;
+    private String stClass;
 
     public String getCode() {
         return Code;
+    }
+
+    public String getStClass() {
+        return stClass;
+    }
+
+    public void setStClass(String stClass) {
+        this.stClass = stClass;
     }
 
     public void setCode(String Code) {

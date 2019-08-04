@@ -56,6 +56,7 @@ public class frmQLSV extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         btnImportTKB = new javax.swing.JMenuItem();
+        mnListTkb = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -194,6 +195,14 @@ public class frmQLSV extends javax.swing.JFrame {
         });
         jMenu2.add(btnImportTKB);
 
+        mnListTkb.setText("Xem danh sách TKB");
+        mnListTkb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnListTkbActionPerformed(evt);
+            }
+        });
+        jMenu2.add(mnListTkb);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -259,6 +268,14 @@ public class frmQLSV extends javax.swing.JFrame {
         frm.setVisible(true);
     }//GEN-LAST:event_btnImportTKBActionPerformed
 
+    private void mnListTkbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnListTkbActionPerformed
+        // TODO add your handling code here:
+         frmListTkb frm = new frmListTkb(null,true);
+        frm.setTitle("Thêm Sinh Viên");
+        frm.setLocationRelativeTo(null);
+        frm.setVisible(true);
+    }//GEN-LAST:event_mnListTkbActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -318,6 +335,7 @@ public class frmQLSV extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JMenuItem mnListTkb;
     private javax.swing.JTable tbStudents;
     // End of variables declaration//GEN-END:variables
 }

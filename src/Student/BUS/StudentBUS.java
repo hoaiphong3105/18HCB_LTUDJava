@@ -58,4 +58,23 @@ public class StudentBUS {
         }
         return list;
     }
+
+    public static ArrayList<StudentDto> getAllStudentByClass(String stClass) {
+        try {
+            ArrayList<StudentDto> list = new ArrayList<StudentDto>();
+            ArrayList<StudentDto> res = new ArrayList<StudentDto>();
+            list = getAllStudents("");
+            if (list == null) {
+                return null;
+            }
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i).getStClass().equals(stClass)) {
+                    res.add(list.get(i));
+                }
+            }
+            return res;
+        } catch (Exception ex) {
+            return null;
+        }
+    }
 }

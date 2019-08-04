@@ -2,3 +2,5 @@
 2,Phong,Nam,18HCB
 3,Tèo,Nữ,18HCB
 4,Tí,Nữ,17HCB
+6,Chuột,Nam,17HCB
+5,Tủn,Nữ,16HCB
